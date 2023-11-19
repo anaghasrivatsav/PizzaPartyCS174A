@@ -9,6 +9,8 @@ import {Text_Demo} from "./examples/text-demo.js"
 import {Transforms_Sandbox} from "./examples/transforms-sandbox.js"
 import {Assignment3} from "./assignment3.js";
 import {Assignment2} from "./assignment2.js";
+import {Final_Assignment} from "./final_assignment.js";
+
 
 // Pull these names into this module's scope for convenience:
 const {
@@ -36,14 +38,15 @@ Object.assign(defs,
     {Text_Demo},
     {Transforms_Sandbox},
     {Assignment3},
-    {Assignment2}
+    {Assignment2},
+    {Final_Assignment}
 );
 
 // ******************** End extra step
 
 // (Can define Main_Scene's class here)
 
-let  Main_Scene = Assignment3; // Initial value
+let  Main_Scene = Final_Assignment; // Initial value
 
 function changeVariable(Main_Scene) {
    // Change the variable (you can modify this line based on your requirements)
