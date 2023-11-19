@@ -34,15 +34,17 @@ export class Final_Assignment extends Scene {
                 
     
         }
+        this.add_sauce = false;
 
         this.initial_camera_location = Mat4.look_at(vec3(0, 10, 20), vec3(0, 0, 0), vec3(0, 1, 0));
     }
 
     make_control_panel() {
         // Draw the scene's buttons, setup their actions and keyboard shortcuts, and monitor live measurements.
-        this.key_triggered_button("View solar system", ["Control", "0"], () => this.attached = () => this.initial_camera_location);
-        this.new_line();
-        this.key_triggered_button("Attach to planet 1", ["Control", "1"], () => this.attached = () => this.crust);
+        this.key_triggered_button("Attach to planet 1", ["Control", "1"], () => {
+            // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
+            this.add_sauce = !this.add_sauce
+        });
         
     }
 
@@ -94,10 +96,13 @@ export class Final_Assignment extends Scene {
             
 
         let sauce_transform = model_transform.times(Mat4.scale(sauce_radius, sauce_radius, sauce_radius)).times(Mat4.scale(1,1,0.1));
-
-        this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.test2.override({color: crust_color}));
-        this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.test2.override({color: sauce_color}));
         
+        if(this.add_sauce){
+            this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.test2.override({color: crust_color}));
+            this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.test2.override({color: sauce_color}));
+        }else{
+            this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.test2.override({color: crust_color}));
+        }
 
     
         this.sauce = Mat4.inverse(sauce_transform.times(Mat4.translation(0, 0, 0)));
