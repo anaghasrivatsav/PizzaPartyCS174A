@@ -8,6 +8,7 @@ import {Surfaces_Demo} from "./examples/surfaces-demo.js"
 import {Text_Demo} from "./examples/text-demo.js"
 import {Transforms_Sandbox} from "./examples/transforms-sandbox.js"
 import {Assignment3} from "./assignment3.js";
+import {Assignment2} from "./assignment2.js";
 
 // Pull these names into this module's scope for convenience:
 const {
@@ -34,14 +35,26 @@ Object.assign(defs,
     {Surfaces_Demo},
     {Text_Demo},
     {Transforms_Sandbox},
-    {Assignment3}
+    {Assignment3},
+    {Assignment2}
 );
 
 // ******************** End extra step
 
 // (Can define Main_Scene's class here)
 
-const Main_Scene = Assignment3;
+let  Main_Scene = Assignment3; // Initial value
+
+function changeVariable(Main_Scene) {
+   // Change the variable (you can modify this line based on your requirements)
+   Main_Scene = Assignment2;
+  console.log("Variable value:", Main_Scene);
+}
+
+// Set an interval to call the function every 10 seconds (10000 milliseconds)
+setInterval(changeVariable(Main_Scene), 10000);
+
+
 const Additional_Scenes = [];
 
 export {Main_Scene, Additional_Scenes, Canvas_Widget, Code_Widget, Text_Widget, defs}
