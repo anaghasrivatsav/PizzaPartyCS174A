@@ -25,9 +25,9 @@ export class Final_Assignment extends Scene {
         // *** Materials
         this.materials = {
             test: new Material(new defs.Phong_Shader(),
-                {ambient: .4, diffusivity: .6, color: hex_color("#ffffff")}),
+                {ambient: 1, diffusivity: .6, color: hex_color("#ffffff")}),
             test2: new Material(new Gouraud_Shader(),
-                {ambient: .4, diffusivity: .6, color: hex_color("#992828")}),
+                {ambient: 1, diffusivity: .6, color: hex_color("#992828")}),
             test: new Material(new defs.Phong_Shader(),
                 {ambient: 1, diffusivity: .6, color: hex_color("#ffffff")}),
             
@@ -35,17 +35,22 @@ export class Final_Assignment extends Scene {
     
         }
         this.add_sauce = false;
-
+        this.add_cheese = false;
+        this.add_olives = false;
+        this.add_peppers = false;
+        this.add_chicken = false;
+        this.add_pineapple = false;
+        this.can_bake = false;
+        this.update_control_panel = true;
         this.initial_camera_location = Mat4.look_at(vec3(0, 10, 20), vec3(0, 0, 0), vec3(0, 1, 0));
     }
 
     make_control_panel() {
         // Draw the scene's buttons, setup their actions and keyboard shortcuts, and monitor live measurements.
-        this.key_triggered_button("Attach to planet 1", ["Control", "1"], () => {
+        this.key_triggered_button("sauce", ["s"], () => {
             // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
-            this.add_sauce = !this.add_sauce
+            this.add_sauce = true
         });
-        
     }
 
     display(context, program_state) {
@@ -63,14 +68,6 @@ export class Final_Assignment extends Scene {
         const t = program_state.animation_time / 1000, dt = program_state.animation_delta_time / 1000;
         const yellow = hex_color("#fac91a");
         let model_transform = Mat4.identity();
-
-       
-
-
-
-       
-
-
         // planet set up
 
 
@@ -86,20 +83,63 @@ export class Final_Assignment extends Scene {
         if (t<=5)
         {
             var sauce_radius = Math.max(1 + Math.abs(2*Math.sin(Math.PI/10 * t)), 2)
-           
-
         }
         else
         {
             var sauce_radius = 3
         }
-            
 
         let sauce_transform = model_transform.times(Mat4.scale(sauce_radius, sauce_radius, sauce_radius)).times(Mat4.scale(1,1,0.1));
         
-        if(this.add_sauce){
+        let cheese_color = hex_color("#D2B48C");
+        let cheese_transform = model_transform.times(Mat4.scale(0.5, 0.5, 0.5)).times(Mat4.scale(1,1,0.1));
+
+        if(this.add_olives || this.add_peppers ||  this.add_chicken || this.add_pineapple){
+            //DRAW AND SPIN TOPPINGS
+
+        }else if(this.add_cheese){
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.test2.override({color: crust_color}));
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.test2.override({color: sauce_color}));
+            if(!(this.update_control_panel)){
+                this.key_triggered_button("olives", ["o"], () => {
+                    // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
+                    this.add_olives = true;
+                });  
+                this.key_triggered_button("bell peppers", ["b"], () => {
+                    // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
+                    this.add_peppers = true;
+                });   
+                this.key_triggered_button("chicken", ["ch"], () => {
+                    // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
+                    this.add_chicken = true;
+                });   
+                this.key_triggered_button("pineapple", ["p"], () => {
+                    // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
+                    this.add_pineapple = true;
+                }); 
+                this.key_triggered_button("bake", ["ba"], () => {
+                    // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
+                    this.can_bake = true;
+                });                 
+                this.update_control_panel = true;
+            }
+            // for(let i = 0; i < 5; i++){
+            // tmp_transform = cheese_transform.translation(Math.random(), Math.random(), Math.random())
+            // tmp_transform = cheese_transform.times(Mat4.translation(-1, 0, 0))
+            // this.shapes.sphere.draw(context, program_state, cheese_transform, this.materials.test2.override({color: cheese_color}));
+            // }
+
+        }else if(this.add_sauce){
+            this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.test2.override({color: crust_color}));
+            this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.test2.override({color: sauce_color}));
+            if(this.update_control_panel){
+                this.key_triggered_button("cheese", ["c"], () => {
+                    // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
+                    this.add_cheese = true;
+                });                
+                this.update_control_panel = false;
+            }
+            
         }else{
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.test2.override({color: crust_color}));
         }
@@ -112,11 +152,6 @@ export class Final_Assignment extends Scene {
 
             program_state.camera_inverse = this.attached().map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, 0.1))
         }
-
-        
-        
-       
-
     }
 }
 
