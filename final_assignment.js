@@ -94,10 +94,14 @@ export class Final_Assignment extends Scene {
         let cheese_color = hex_color("#D2B48C");
         let cheese_transform = model_transform.times(Mat4.scale(0.5, 0.5, 0.5)).times(Mat4.scale(1,1,0.1));
 
+        let background_color = hex_color("#0000FF");
+        let background_transform = model_transform.times(Mat4.scale(50, 50, 50)).times(Mat4.scale(8,8,0.1));
+
         if(this.add_olives || this.add_peppers ||  this.add_chicken || this.add_pineapple){
             //DRAW AND SPIN TOPPINGS
 
         }else if(this.add_cheese){
+            this.shapes.circle.draw(context, program_state, background_transform, this.materials.test2.override({color: background_color}));
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.test2.override({color: crust_color}));
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.test2.override({color: sauce_color}));
             if(!(this.update_control_panel)){
@@ -130,6 +134,7 @@ export class Final_Assignment extends Scene {
             // }
 
         }else if(this.add_sauce){
+            this.shapes.circle.draw(context, program_state, background_transform, this.materials.test2.override({color: background_color}));
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.test2.override({color: crust_color}));
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.test2.override({color: sauce_color}));
             if(this.update_control_panel){
@@ -141,6 +146,7 @@ export class Final_Assignment extends Scene {
             }
             
         }else{
+            this.shapes.circle.draw(context, program_state, background_transform, this.materials.test2.override({color: background_color}));
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.test2.override({color: crust_color}));
         }
 
