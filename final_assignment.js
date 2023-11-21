@@ -34,19 +34,19 @@ export class Final_Assignment extends Scene {
                 {ambient: 1, diffusivity: .6, color: hex_color("#ffffff")}),
             
             crust_texture: new Material(new Textured_Phong(), {
-                    color: hex_color("#ffffff"),
-                    ambient: 1, diffusivity: 0.6, specularity: 0.1,
-                    texture: new Texture("assets/crust.png")
+                    color: hex_color("#000000"),
+                    ambient: 1, diffusivity: 0.1, specularity: 0.1,
+                    texture: new Texture("assets/Untitled_Artwork 114.png")
                 }),
             sauce_texture: new Material(new Textured_Phong(), {
-                    color: hex_color("#ffffff"),
-                    ambient: 1, diffusivity: 0.6, specularity: 0.1,
-                    texture: new Texture("assets/sauce.PNG")
+                    color: hex_color("#000000"),
+                    ambient: 1, diffusivity: 0.6, specularity: 0.5,
+                    texture: new Texture("assets/Untitled_Artwork 115.png")
                 }),
             cheese_texture: new Material(new Textured_Phong(), {
                     color: hex_color("#ffffff"),
                     ambient: 1, diffusivity: 0.1, specularity: 0.1,
-                    texture: new Texture("assets/cheese.PNG")
+                    texture: new Texture("assets/Untitled_Artwork 113.png")
                 }),
             
                 
@@ -92,12 +92,12 @@ export class Final_Assignment extends Scene {
         const light_position = vec4(0, 0, 0, 1);
         program_state.lights = [new Light(light_position, hex_color("#FFFFFF"), 10**100)];
 
-        let crust_color = hex_color("#D2B48C");
+        let crust_color = hex_color("#000000");
         let crust_transform = model_transform.times(Mat4.scale(8,8,0.1));
         
 
         let max_sauce = 7;
-        let sauce_color = hex_color("#FF0000");
+        let sauce_color = hex_color("#000000");
         if (t<=5)
         {
             var sauce_radius = Math.max(1 + Math.abs((max_sauce -1)*Math.sin(Math.PI/10 * t)), 2)
