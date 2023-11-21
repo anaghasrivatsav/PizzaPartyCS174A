@@ -36,7 +36,7 @@ export class Final_Assignment extends Scene {
             crust_texture: new Material(new Textured_Phong(), {
                     color: hex_color("#ffffff"),
                     ambient: 1, diffusivity: 0.6, specularity: 0.1,
-                    texture: new Texture("assets/sauce.png")
+                    texture: new Texture("assets/crust.png")
                 }),
             sauce_texture: new Material(new Textured_Phong(), {
                     color: hex_color("#ffffff"),
