@@ -1,8 +1,10 @@
 import {defs, tiny} from './examples/common.js';
 
 const {
-    Vector, Vector3, vec, vec3, vec4, color, hex_color, Shader, Matrix, Mat4, Light, Shape, Material, Scene,
+    Vector, Vector3, vec, vec3, vec4, color, hex_color, Shader, Matrix, Mat4, Light, Shape, Material, Scene, Texture,
 } = tiny;
+
+const {Cube, Axis_Arrows, Textured_Phong} = defs
 
 export class Final_Assignment extends Scene {
     constructor() {
@@ -13,7 +15,7 @@ export class Final_Assignment extends Scene {
         this.shapes = {
             torus: new defs.Torus(15, 15),
             torus2: new defs.Torus(3, 15),
-            sphere: new defs.Subdivision_Sphere(4),
+            sphere: new defs.Subdivision_Sphere(6),
             circle: new defs.Regular_2D_Polygon(1, 15),
 
 
@@ -30,6 +32,22 @@ export class Final_Assignment extends Scene {
                 {ambient: 1, diffusivity: .6, color: hex_color("#992828")}),
             test: new Material(new defs.Phong_Shader(),
                 {ambient: 1, diffusivity: .6, color: hex_color("#ffffff")}),
+            
+            crust_texture: new Material(new Textured_Phong(), {
+                    color: hex_color("#ffffff"),
+                    ambient: 1, diffusivity: 0.6, specularity: 0.1,
+                    texture: new Texture("assets/sauce.png")
+                }),
+            sauce_texture: new Material(new Textured_Phong(), {
+                    color: hex_color("#ffffff"),
+                    ambient: 1, diffusivity: 0.6, specularity: 0.1,
+                    texture: new Texture("assets/sauce.PNG")
+                }),
+            cheese_texture: new Material(new Textured_Phong(), {
+                    color: hex_color("#ffffff"),
+                    ambient: 1, diffusivity: 0.1, specularity: 0.1,
+                    texture: new Texture("assets/cheese.PNG")
+                }),
             
                 
     
@@ -75,26 +93,26 @@ export class Final_Assignment extends Scene {
         program_state.lights = [new Light(light_position, hex_color("#FFFFFF"), 10**100)];
 
         let crust_color = hex_color("#D2B48C");
-        let crust_transform = model_transform.times(Mat4.scale(4,4,0.1));
+        let crust_transform = model_transform.times(Mat4.scale(8,8,0.1));
         
 
-
+        let max_sauce = 7;
         let sauce_color = hex_color("#FF0000");
         if (t<=5)
         {
-            var sauce_radius = Math.max(1 + Math.abs(2*Math.sin(Math.PI/10 * t)), 2)
+            var sauce_radius = Math.max(1 + Math.abs((max_sauce -1)*Math.sin(Math.PI/10 * t)), 2)
         }
         else
         {
-            var sauce_radius = 3
+            var sauce_radius = max_sauce
         }
 
-        let sauce_transform = model_transform.times(Mat4.scale(sauce_radius, sauce_radius, sauce_radius)).times(Mat4.scale(1,1,0.1));
+        let sauce_transform = model_transform.times(Mat4.scale(sauce_radius, sauce_radius, sauce_radius)).times(Mat4.scale(1,1,0.1)).times(Mat4.translation(0,0.05,0));
         
         let cheese_color = hex_color("#D2B48C");
         let cheese_transform = model_transform.times(Mat4.scale(0.5, 0.5, 0.5)).times(Mat4.scale(1,1,0.1));
 
-        let background_color = hex_color("#0000FF");
+        let background_color = hex_color("#FFFDD0");
         let background_transform = model_transform.times(Mat4.scale(50, 50, 50)).times(Mat4.scale(8,8,0.1));
 
         if(this.add_olives || this.add_peppers ||  this.add_chicken || this.add_pineapple){
@@ -135,8 +153,8 @@ export class Final_Assignment extends Scene {
 
         }else if(this.add_sauce){
             this.shapes.circle.draw(context, program_state, background_transform, this.materials.test2.override({color: background_color}));
-            this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.test2.override({color: crust_color}));
-            this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.test2.override({color: sauce_color}));
+            this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
+            this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
             if(this.update_control_panel){
                 this.key_triggered_button("cheese", ["c"], () => {
                     // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
@@ -147,7 +165,7 @@ export class Final_Assignment extends Scene {
             
         }else{
             this.shapes.circle.draw(context, program_state, background_transform, this.materials.test2.override({color: background_color}));
-            this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.test2.override({color: crust_color}));
+            this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
         }
 
     
