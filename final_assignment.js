@@ -17,6 +17,7 @@ export class Final_Assignment extends Scene {
             torus2: new defs.Torus(3, 15),
             sphere: new defs.Subdivision_Sphere(6),
             circle: new defs.Regular_2D_Polygon(1, 15),
+            sphere2: new defs.Subdivision_Sphere(4),
 
 
 
@@ -36,17 +37,22 @@ export class Final_Assignment extends Scene {
             crust_texture: new Material(new Textured_Phong(), {
                     color: hex_color("#000000"),
                     ambient: 1, diffusivity: 0.1, specularity: 0.1,
-                    texture: new Texture("assets/Untitled_Artwork 114.png")
+                    texture: new Texture("assets/crust.png")
                 }),
             sauce_texture: new Material(new Textured_Phong(), {
                     color: hex_color("#000000"),
                     ambient: 1, diffusivity: 0.6, specularity: 0.5,
-                    texture: new Texture("assets/Untitled_Artwork 115.png")
+                    texture: new Texture("assets/sauce.png")
                 }),
             cheese_texture: new Material(new Textured_Phong(), {
-                    color: hex_color("#ffffff"),
+                    color: hex_color("#FDDF8E"),
                     ambient: 1, diffusivity: 0.1, specularity: 0.1,
-                    texture: new Texture("assets/Untitled_Artwork 113.png")
+                    texture: new Texture("assets/cheese.png")
+                }),
+            cheese_texture_baked: new Material(new Textured_Phong(), {
+                    color: hex_color("#000000"),
+                    ambient: 1, diffusivity: 0.1, specularity: 0.1,
+                    texture: new Texture("assets/cheese.png")
                 }),
             
                 
@@ -109,8 +115,10 @@ export class Final_Assignment extends Scene {
 
         let sauce_transform = model_transform.times(Mat4.scale(sauce_radius, sauce_radius, sauce_radius)).times(Mat4.scale(1,1,0.1)).times(Mat4.translation(0,0.05,0));
         
-        let cheese_color = hex_color("#D2B48C");
-        let cheese_transform = model_transform.times(Mat4.scale(0.5, 0.5, 0.5)).times(Mat4.scale(1,1,0.1));
+        let cheese_color = hex_color("#FDDF8E");
+        let cheese_transform = model_transform.times(Mat4.scale(6, 5.5, 6)).times(Mat4.translation(0,0.23,0));
+
+        let cheese_baked = hex_color("#000000")
 
         let background_color = hex_color("#FFFDD0");
         let background_transform = model_transform.times(Mat4.scale(50, 50, 50)).times(Mat4.scale(8,8,0.1));
@@ -119,9 +127,10 @@ export class Final_Assignment extends Scene {
             //DRAW AND SPIN TOPPINGS
 
         }else if(this.add_cheese){
-            this.shapes.circle.draw(context, program_state, background_transform, this.materials.test2.override({color: background_color}));
-            this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.test2.override({color: crust_color}));
-            this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.test2.override({color: sauce_color}));
+            //this.shapes.circle.draw(context, program_state, background_transform, this.materials.test2.override({color: background_color}));
+            this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
+            this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform, this.materials.cheese_texture.override({color: cheese_color}));
             if(!(this.update_control_panel)){
                 this.key_triggered_button("olives", ["o"], () => {
                     // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
