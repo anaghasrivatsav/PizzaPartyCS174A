@@ -14,7 +14,7 @@ export class Final_Assignment extends Scene {
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
             torus: new defs.Torus(15, 15),
-            torus2: new defs.Torus(3, 15),
+            torus2: new defs.Torus(10, 15),
             sphere: new defs.Subdivision_Sphere(6),
             circle: new defs.Regular_2D_Polygon(1, 15),
             sphere2: new defs.Subdivision_Sphere(4),
@@ -33,6 +33,12 @@ export class Final_Assignment extends Scene {
                 {ambient: 1, diffusivity: .6, color: hex_color("#992828")}),
             test: new Material(new defs.Phong_Shader(),
                 {ambient: 1, diffusivity: .6, color: hex_color("#ffffff")}),
+            
+            bg_texture: new Material(new Textured_Phong(), {
+                    color: hex_color("#000000"),
+                    ambient: 1, diffusivity: 0.1, specularity: 0.1,
+                    texture: new Texture("assets/bg_2.png")
+                }),
             
             crust_texture: new Material(new Textured_Phong(), {
                     color: hex_color("#000000"),
@@ -54,6 +60,12 @@ export class Final_Assignment extends Scene {
                     ambient: 1, diffusivity: 0.1, specularity: 0.1,
                     texture: new Texture("assets/cheese.png")
                 }),
+            olive_texture: new Material(new Textured_Phong(), {
+                    color: hex_color("#000000"),
+                    ambient: 1, diffusivity: 0.1, specularity: 0.1,
+                    texture: new Texture("assets/olive.png")
+                }),
+
             
                 
     
@@ -116,18 +128,85 @@ export class Final_Assignment extends Scene {
         let sauce_transform = model_transform.times(Mat4.scale(sauce_radius, sauce_radius, sauce_radius)).times(Mat4.scale(1,1,0.1)).times(Mat4.translation(0,0.05,0));
         
         let cheese_color = hex_color("#FDDF8E");
-        let cheese_transform = model_transform.times(Mat4.scale(6, 5.5, 6)).times(Mat4.translation(0,0.23,0));
+        let cheese_transform = model_transform.times(Mat4.scale(4.5, 4.5, 4.5)).times(Mat4.translation(0,0.6,1)).times(Mat4.scale(1,1,0.1));
 
-        let cheese_baked = hex_color("#000000")
+        
 
-        let background_color = hex_color("#FFFDD0");
+        let olive_base = model_transform.times(Mat4.translation(0,2,10)).times(Mat4.scale(0.2, 0.2, 0.1))
+        let olive_transform1= olive_base.times(Mat4.translation(-7,17,0))
+        let olive_transform2= olive_base.times(Mat4.translation(5,27,0))
+        let olive_transform3= olive_base.times(Mat4.translation(9,15,0))
+        let olive_transform4= olive_base.times(Mat4.translation(-5,24,0))
+        let olive_transform5= olive_base.times(Mat4.translation(5,6,0))
+        let olive_transform6= olive_base.times(Mat4.translation(-7,10,0))
+        let olive_transform7= olive_base.times(Mat4.translation(-1,13,0))
+        let olive_transform8= olive_base.times(Mat4.translation(-3,15,0))
+        let olive_transform9= olive_base.times(Mat4.translation(10,9,0))
+        let olive_transform10= olive_base.times(Mat4.translation(6.5,8,0))
+        let olive_transform11= olive_base.times(Mat4.translation(4,20,0))
+
+
+
+        let olive_color = hex_color("#000000")
+
+        let background_color = hex_color("#000000");
         let background_transform = model_transform.times(Mat4.scale(50, 50, 50)).times(Mat4.scale(8,8,0.1));
 
-        if(this.add_olives || this.add_peppers ||  this.add_chicken || this.add_pineapple){
+        if(this.can_bake)
+        {
+            const start_time = 15
+  
+            let r_val = Math.max(0.98 +0.1*(start_time - t) , 0.2)
+            let g_val = Math.max(0.87 + 0.1*( start_time - t), 0.2)
+            let b_val = Math.max(0.55 + 0.1*(start_time - t ), 0.2)
+            let cheese_baked1 = color(r_val, g_val, b_val, 1);
+            console.log(start_time)
+     
+            
+            
+            console.log("coming here ")
+            this.shapes.circle.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
+            this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
+            this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform, this.materials.cheese_texture_baked.override({color: cheese_baked1}));
+            this.shapes.torus.draw(context, program_state, olive_transform1, this.materials.olive_texture.override({color: olive_color}));
+            this.shapes.torus.draw(context, program_state, olive_transform2, this.materials.olive_texture.override({color: olive_color}));
+            this.shapes.torus.draw(context, program_state, olive_transform3, this.materials.olive_texture.override({color: olive_color}));
+            this.shapes.torus.draw(context, program_state, olive_transform4, this.materials.olive_texture.override({color: olive_color}));
+            this.shapes.torus.draw(context, program_state, olive_transform5, this.materials.olive_texture.override({color: olive_color}));
+            this.shapes.torus.draw(context, program_state, olive_transform6, this.materials.olive_texture.override({color: olive_color}));
+            this.shapes.torus.draw(context, program_state, olive_transform7, this.materials.olive_texture.override({color: olive_color}));
+            this.shapes.torus.draw(context, program_state, olive_transform8, this.materials.olive_texture.override({color: olive_color}));
+            this.shapes.torus.draw(context, program_state, olive_transform9, this.materials.olive_texture.override({color: olive_color}));
+            this.shapes.torus.draw(context, program_state, olive_transform10, this.materials.olive_texture.override({color: olive_color}));
+            this.shapes.torus.draw(context, program_state, olive_transform11, this.materials.olive_texture.override({color: olive_color}));
+
+        }
+
+        else if(this.add_olives || this.add_peppers ||  this.add_chicken || this.add_pineapple){
+            if (this.add_olives)
+            {
+                this.shapes.circle.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
+                this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
+                this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
+                this.shapes.sphere2.draw(context, program_state, cheese_transform, this.materials.cheese_texture.override({color: cheese_color}));
+                this.shapes.torus.draw(context, program_state, olive_transform1, this.materials.olive_texture.override({color: olive_color}));
+                this.shapes.torus.draw(context, program_state, olive_transform2, this.materials.olive_texture.override({color: olive_color}));
+                this.shapes.torus.draw(context, program_state, olive_transform3, this.materials.olive_texture.override({color: olive_color}));
+                this.shapes.torus.draw(context, program_state, olive_transform4, this.materials.olive_texture.override({color: olive_color}));
+                this.shapes.torus.draw(context, program_state, olive_transform5, this.materials.olive_texture.override({color: olive_color}));
+                this.shapes.torus.draw(context, program_state, olive_transform6, this.materials.olive_texture.override({color: olive_color}));
+                this.shapes.torus.draw(context, program_state, olive_transform7, this.materials.olive_texture.override({color: olive_color}));
+                this.shapes.torus.draw(context, program_state, olive_transform8, this.materials.olive_texture.override({color: olive_color}));
+                this.shapes.torus.draw(context, program_state, olive_transform9, this.materials.olive_texture.override({color: olive_color}));
+                this.shapes.torus.draw(context, program_state, olive_transform10, this.materials.olive_texture.override({color: olive_color}));
+                this.shapes.torus.draw(context, program_state, olive_transform11, this.materials.olive_texture.override({color: olive_color}));
+
+            }
             //DRAW AND SPIN TOPPINGS
 
         }else if(this.add_cheese){
-            //this.shapes.circle.draw(context, program_state, background_transform, this.materials.test2.override({color: background_color}));
+            this.shapes.circle.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
             this.shapes.sphere2.draw(context, program_state, cheese_transform, this.materials.cheese_texture.override({color: cheese_color}));
@@ -161,7 +240,7 @@ export class Final_Assignment extends Scene {
             // }
 
         }else if(this.add_sauce){
-            this.shapes.circle.draw(context, program_state, background_transform, this.materials.test2.override({color: background_color}));
+            this.shapes.circle.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
             if(this.update_control_panel){
@@ -173,7 +252,7 @@ export class Final_Assignment extends Scene {
             }
             
         }else{
-            this.shapes.circle.draw(context, program_state, background_transform, this.materials.test2.override({color: background_color}));
+            this.shapes.circle.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
         }
 
