@@ -219,7 +219,7 @@ export class Final_Assignment extends Scene {
             this.shapes.circle.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform, this.materials.cheese_texture_baked.override({color: cheese_baked1}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform, this.materials.cheese_texture_baked.override({color: cheese_color}));
             
             if (this.add_olives)
             {
