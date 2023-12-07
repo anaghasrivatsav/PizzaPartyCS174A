@@ -19,8 +19,8 @@ export class Final_Assignment extends Scene {
             circle: new defs.Regular_2D_Polygon(1, 15),
             sphere2: new defs.Subdivision_Sphere(4),
             sub_sphere: new (defs.Subdivision_Sphere.prototype.make_flat_shaded_version())(2),
-            cube: new defs.Cube()
-
+            cube: new defs.Cube(),
+            oven: new defs.Subdivision_Sphere(4),
 
 
             // TODO:  Fill in as many additional shape instances as needed in this key/value table.
@@ -84,13 +84,11 @@ export class Final_Assignment extends Scene {
                     ambient: 1, diffusivity: 0.1, specularity: 0.1,
                     texture: new Texture("assets/basil.png")
                 }),
-
-
-            
-                
+            oven: new Material(new defs.Phong_Shader(), {ambient: 1, diffusivity: 1, color: hex_color("#ffffff")}),
     
         }
         this.sauce_time = 0;
+        this.cheese_radius = 1.5;
         this.bake_time = 0;
         this.olive_time = 0;
         this.tomato_time = 0;
@@ -106,6 +104,7 @@ export class Final_Assignment extends Scene {
         this.can_bake = false;
         this.update_control_panel = true;
         this.initial_camera_location = Mat4.look_at(vec3(0, 10, 20), vec3(0, 0, 0), vec3(0, 1, 0));
+        this.done = false;
     }
 
     make_control_panel() {
@@ -156,7 +155,23 @@ export class Final_Assignment extends Scene {
         let sauce_transform = model_transform.times(Mat4.scale(sauce_radius, sauce_radius, sauce_radius)).times(Mat4.scale(1,1,0.1)).times(Mat4.translation(0,0.05,0));
         
         let cheese_color = hex_color("#FDDF8E");
-        let cheese_transform = model_transform.times(Mat4.scale(4.5, 4.5, 4.5)).times(Mat4.translation(0,0.6,1)).times(Mat4.scale(1,1,0.1));
+        let max_cheese = 2.5;
+        if(this.cheese_radius > max_cheese){
+            this.cheese_radius = max_cheese
+        }else if (this.can_bake)
+        {
+            this.cheese_radius += 0.01
+            console.log(this.cheese_radius)
+            // var cheese_radius = Math.max(1 + Math.abs((max_cheese -1)*Math.sin(Math.PI/10 * cheese_time)), 2)
+        }
+        else
+        {
+            this.cheese_radius = 1.5
+        }
+        let cheese_transform1 = model_transform.times(Mat4.scale(this.cheese_radius, this.cheese_radius, this.cheese_radius)).times(Mat4.translation(-1.2,1.5,1)).times(Mat4.scale(1,1,0.1));
+        let cheese_transform2 = cheese_transform1.times(Mat4.translation(2,0.2,1))
+        let cheese_transform3 = cheese_transform2.times(Mat4.translation(-2,-2,1))
+        let cheese_transform4 = cheese_transform3.times(Mat4.translation(2,0.1,1))
 
         
 
@@ -209,17 +224,59 @@ export class Final_Assignment extends Scene {
         let background_transform = model_transform.times(Mat4.scale(50, 50, 50)).times(Mat4.scale(8,8,0.1));
 
         let bake_time = t - this.bake_time
-        if(this.can_bake)
+        if(this.done){
+
+        }else if(this.can_bake)
         {
             // use bake_time for this
   
             // to do change the color over time as baking
 
-     
-            this.shapes.circle.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
+            //OVEN
+            var transSun = model_transform.times(Mat4.scale(3, 3, 3)).times(Mat4.translation(10, 3, -3));
+            var valueRGB = (1 + Math.sin(2 * Math.PI/10 * t))/2; 
+            var colorSun = color(1, valueRGB, valueRGB, 1);
+            for(let i = 0; i < 20; i++){
+                this.shapes.oven.draw(context, program_state, transSun, this.materials.oven.override({color: colorSun}));
+                transSun = transSun.times(Mat4.translation(-2, 0, 0));
+            }
+            transSun = transSun.times(Mat4.translation(10, -2, 0));
+            for(let i = 0; i < 20; i++){
+                this.shapes.oven.draw(context, program_state, transSun, this.materials.oven.override({color: colorSun}));
+                transSun = transSun.times(Mat4.translation(2, 0, 0));
+            }
+            transSun = transSun.times(Mat4.translation(-30, -2.1, 0));
+            for(let i = 0; i < 20; i++){
+                this.shapes.oven.draw(context, program_state, transSun, this.materials.oven.override({color: colorSun}));
+                transSun = transSun.times(Mat4.translation(2, 0, 0));
+            }
+            transSun = transSun.times(Mat4.translation(-10, -2.1, 0));
+            for(let i = 0; i < 20; i++){
+                this.shapes.oven.draw(context, program_state, transSun, this.materials.oven.override({color: colorSun}));
+                transSun = transSun.times(Mat4.translation(-2, 0, 0));
+            }
+            transSun = transSun.times(Mat4.translation(5, -2.1, 0));
+            for(let i = 0; i < 20; i++){
+                this.shapes.oven.draw(context, program_state, transSun, this.materials.oven.override({color: colorSun}));
+                transSun = transSun.times(Mat4.translation(2, 0, 0));
+            }
+            transSun = transSun.times(Mat4.translation(-5, -2.1, 0));
+            for(let i = 0; i < 20; i++){
+                this.shapes.oven.draw(context, program_state, transSun, this.materials.oven.override({color: colorSun}));
+                transSun = transSun.times(Mat4.translation(-2, 0, 0));
+            }
+
+            // transSun = transSun.times(Mat4.translation(-4, 0, 0));
+            // this.shapes.oven.draw(context, program_state, transSun, this.materials.oven.override({color: colorSun}));
+
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform, this.materials.cheese_texture_baked.override({color: cheese_color}));
+
+
+            this.shapes.sphere2.draw(context, program_state, cheese_transform1, this.materials.cheese_texture.override({color: cheese_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform2, this.materials.cheese_texture.override({color: cheese_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform3, this.materials.cheese_texture.override({color: cheese_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform4, this.materials.cheese_texture.override({color: cheese_color}));
             
             if (this.add_olives)
             {
@@ -236,7 +293,13 @@ export class Final_Assignment extends Scene {
                 this.shapes.torus.draw(context, program_state, olive_transform11, this.materials.olive_texture.override({color: olive_color}));
 
             }
-            
+            if(this.update_control_panel){
+                this.key_triggered_button("done", ["d"], () => {
+                    // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
+                    this.done = true;
+                }); 
+                this.update_control_panel = false;
+            }
 
         }
 
@@ -244,7 +307,10 @@ export class Final_Assignment extends Scene {
             this.shapes.circle.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform, this.materials.cheese_texture.override({color: cheese_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform1, this.materials.cheese_texture.override({color: cheese_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform2, this.materials.cheese_texture.override({color: cheese_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform3, this.materials.cheese_texture.override({color: cheese_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform4, this.materials.cheese_texture.override({color: cheese_color}));
             if (this.add_olives)
             {
                 this.shapes.torus.draw(context, program_state, olive_transform1, this.materials.olive_texture.override({color: olive_color}));
@@ -299,12 +365,17 @@ export class Final_Assignment extends Scene {
             }
             //DRAW AND SPIN TOPPINGS
             this.bake_time = t
-
         }else if(this.add_cheese){
             this.shapes.circle.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform, this.materials.cheese_texture.override({color: cheese_color}));
+
+            this.shapes.sphere2.draw(context, program_state, cheese_transform1, this.materials.cheese_texture.override({color: cheese_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform2, this.materials.cheese_texture.override({color: cheese_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform3, this.materials.cheese_texture.override({color: cheese_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform4, this.materials.cheese_texture.override({color: cheese_color}));
+
+
             if(!(this.update_control_panel)){
                 this.key_triggered_button("olives", ["o"], () => {
                     // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
