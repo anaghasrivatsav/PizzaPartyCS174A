@@ -107,6 +107,14 @@ export class Final_Assignment extends Scene {
         this.done = false;
         this.cheese_color = 0;
         this.ambient = 1;
+        this.rate_pineapple = 1;
+        this.pineapple_rotate = 0;
+        this.rate_chicken = 1;
+        this.chicken_rotate = 0;
+        this.rate_pepper = 1;
+        this.pepper_rotate = 0;
+        this.rate_olive = 1;
+        this.pepper_olive = 0;
     }
 
     make_control_panel() {
@@ -191,31 +199,31 @@ export class Final_Assignment extends Scene {
         let olive_transform11= olive_base.times(Mat4.translation(4,20,0))
 
         let tomato_base = model_transform.times(Mat4.translation(0,2,10)).times(Mat4.scale(0.2, 0.3, 0.2))
-        let tomato_transform1 = tomato_base.times(Mat4.translation(-5, 4, 0)).times(Mat4.rotation(t,0,0,1))
-        let tomato_transform2 = tomato_base.times(Mat4.translation(6, 5, 0))
-        let tomato_transform3 = tomato_base.times(Mat4.translation(0, 14, 0))
-        let tomato_transform4 = tomato_base.times(Mat4.translation(8, 16, 0))
-        let tomato_transform5 = tomato_base.times(Mat4.translation(-6, 17, 0))
-        let tomato_transform6 = tomato_base.times(Mat4.translation(-10, 12, 0))
-        let tomato_transform7 = tomato_base.times(Mat4.translation(10, 12, 0))
+        let tomato_transform1 = tomato_base.times(Mat4.translation(-5, 4, 0)).times(Mat4.rotation(this.pepper_rotate,0,0,1))
+        let tomato_transform2 = tomato_base.times(Mat4.translation(6, 5, 0)).times(Mat4.rotation(this.pepper_rotate+1,0,0,1))
+        let tomato_transform3 = tomato_base.times(Mat4.translation(0, 14, 0)).times(Mat4.rotation(this.pepper_rotate+2,0,0,1))
+        let tomato_transform4 = tomato_base.times(Mat4.translation(8, 16, 0)).times(Mat4.rotation(this.pepper_rotate+3,0,0,1))
+        let tomato_transform5 = tomato_base.times(Mat4.translation(-6, 17, 0)).times(Mat4.rotation(this.pepper_rotate+4,0,0,1))
+        let tomato_transform6 = tomato_base.times(Mat4.translation(-10, 12, 0)).times(Mat4.rotation(this.pepper_rotate+5,0,0,1))
+        let tomato_transform7 = tomato_base.times(Mat4.translation(10, 12, 0)).times(Mat4.rotation(this.pepper_rotate+6,0,0,1))
 
         let pineapple_base = model_transform.times(Mat4.translation(0,2,10)).times(Mat4.scale(0.2, 0.3, 0)).times(Mat4.translation(-3,1,0))
-        let pineapple_transform1 = pineapple_base.times(Mat4.translation(-5,16,0)).times(Mat4.rotation(t - this.pineapple_time,0,0,1))
-        let pineapple_transform2 = pineapple_base.times(Mat4.translation(5,17,0))
-        let pineapple_transform3 = pineapple_base.times(Mat4.translation(7,6,0))
-        let pineapple_transform4 = pineapple_base.times(Mat4.translation(10,11,0))
+        let pineapple_transform1 = pineapple_base.times(Mat4.translation(-5,16,0)).times(Mat4.rotation( this.pineapple_rotate,0,0,1))
+        let pineapple_transform2 = pineapple_base.times(Mat4.translation(5,17,0)).times(Mat4.rotation(this.pineapple_rotate + 1,0,0,1))
+        let pineapple_transform3 = pineapple_base.times(Mat4.translation(7,6,0)).times(Mat4.rotation(this.pineapple_rotate +2,0,0,1))
+        let pineapple_transform4 = pineapple_base.times(Mat4.translation(10,11,0)).times(Mat4.rotation(this.pineapple_rotate+3,0,0,1))
         //let pineapple_transform5 = pineapple_base.times(Mat4.translation(-10,11,0))
-        let pineapple_transform6 = pineapple_base.times(Mat4.translation(-3,6,0))
-        let pineapple_transform7 = pineapple_base.times(Mat4.translation(-1,12,0))
+        let pineapple_transform6 = pineapple_base.times(Mat4.translation(-3,6,0)).times(Mat4.rotation(this.pineapple_rotate + 4,0,0,1))
+        let pineapple_transform7 = pineapple_base.times(Mat4.translation(-1,12,0)).times(Mat4.rotation(this.pineapple_rotate + 5,0,0,1))
 
         let basil_base = model_transform.times(Mat4.translation(0,2,10)).times(Mat4.scale(0.2, 0.3, 0.2))
-        let basil_transform1 = basil_base.times(Mat4.translation(5,17,0)).times(Mat4.scale(1.5, 1.6, 0))
-        let basil_transform2 = basil_base.times(Mat4.translation(-7,14,0)).times(Mat4.scale(1.5, 1.6, 0))
-        let basil_transform3 = basil_base.times(Mat4.translation(0,10,0)).times(Mat4.scale(1.5, 1.6, 0))
-        let basil_transform4 = basil_base.times(Mat4.translation(5,5,0)).times(Mat4.scale(1.5, 1.6, 0))
-        let basil_transform5 = basil_base.times(Mat4.translation(-7,8,0)).times(Mat4.scale(1.5, 1.6, 0))
-        let basil_transform6 = basil_base.times(Mat4.translation(8,9,0)).times(Mat4.scale(1.5, 1.6, 0))
-        let basil_transform7 = basil_base.times(Mat4.translation(10,14,0)).times(Mat4.scale(1.5, 1.6, 0))
+        let basil_transform1 = basil_base.times(Mat4.translation(5,17,0)).times(Mat4.scale(1.5, 1.6, 0)).times(Mat4.rotation( this.chicken_rotate,0,0,1))
+        let basil_transform2 = basil_base.times(Mat4.translation(-7,14,0)).times(Mat4.scale(1.5, 1.6, 0)).times(Mat4.rotation( this.chicken_rotat+1,0,0,1))
+        let basil_transform3 = basil_base.times(Mat4.translation(0,10,0)).times(Mat4.scale(1.5, 1.6, 0)).times(Mat4.rotation( this.chicken_rotate+2,0,0,1))
+        let basil_transform4 = basil_base.times(Mat4.translation(5,5,0)).times(Mat4.scale(1.5, 1.6, 0)).times(Mat4.rotation( this.chicken_rotate+3,0,0,1))
+        let basil_transform5 = basil_base.times(Mat4.translation(-7,10,0)).times(Mat4.scale(1.5, 1.6, 0)).times(Mat4.rotation( this.chicken_rotate+4,0,0,1))
+        let basil_transform6 = basil_base.times(Mat4.translation(8,9,0)).times(Mat4.scale(1.5, 1.6, 0)).times(Mat4.rotation( this.chicken_rotate+5,0,0,1))
+        let basil_transform7 = basil_base.times(Mat4.translation(-10,14,0)).times(Mat4.scale(1.5, 1.6, 0)).times(Mat4.rotation( this.chicken_rotate+6,0,0,1))
 
         let grid_basev = model_transform.times(Mat4.translation(0,2,-0.4)).times(Mat4.scale(0.5,30,0.1))
         /*let grid_v1 = grid_basev.times(Mat4.translation(9,0,0))
@@ -391,6 +399,12 @@ export class Final_Assignment extends Scene {
            
             if (this.add_olives)
             {
+                if(this.olive_time == 0)
+                {
+                    this.olive_time = t
+                }
+                this.olive_rotate = Math.max(this.olive_rotate,this.rate_olive*(t - this.olive_time) )
+                this.rate_olive = Math.max(0,this.rate_olive - 0.001)
                 this.shapes.torus.draw(context, program_state, olive_transform1, this.materials.olive_texture.override({color: olive_color}));
                 this.shapes.torus.draw(context, program_state, olive_transform2, this.materials.olive_texture.override({color: olive_color}));
                 this.shapes.torus.draw(context, program_state, olive_transform3, this.materials.olive_texture.override({color: olive_color}));
@@ -406,6 +420,12 @@ export class Final_Assignment extends Scene {
             }
             if (this.add_peppers)
             {
+                if(this.peppers_time == 0)
+                {
+                    this.peppers_time = t
+                }
+                this.pepper_rotate = Math.max(this.pepper_rotate,this.rate_pepper*(t - this.peppers_time) )
+                this.rate_pepper = Math.max(0,this.rate_pepper - 0.001)
                 this.shapes.sub_sphere.draw(context, program_state, tomato_transform1, this.materials.tomato_texture.override({color: tomato_color}))
                 this.shapes.sub_sphere.draw(context, program_state, tomato_transform2, this.materials.tomato_texture.override({color: tomato_color}))
                 this.shapes.sub_sphere.draw(context, program_state, tomato_transform3, this.materials.tomato_texture.override({color: tomato_color}))
@@ -423,6 +443,9 @@ export class Final_Assignment extends Scene {
                 {
                     this.pineapple_time = t
                 }
+                this.pineapple_rotate = Math.max(this.pineapple_rotate,this.rate_pineapple*(t - this.pineapple_time) )
+
+                this.rate_pineapple = Math.max(0,this.rate_pineapple - 0.001)
                 this.shapes.cube.draw(context,program_state,pineapple_transform1, this.materials.pineapple_texture.override({color:tomato_color}))
                 this.shapes.cube.draw(context,program_state,pineapple_transform2, this.materials.pineapple_texture.override({color:tomato_color}))
                 this.shapes.cube.draw(context,program_state,pineapple_transform3, this.materials.pineapple_texture.override({color:tomato_color}))
@@ -436,6 +459,14 @@ export class Final_Assignment extends Scene {
             }
             if(this.add_chicken)
             {
+                if(this.chicken_time == 0)
+                {
+                    this.chicken_time = t
+                }
+                this.chicken_rotate = Math.max(this.chicken_rotate,this.rate_chicken*(t - this.chicken_time) )
+
+                this.rate_chicken = Math.max(0,this.rate_chicken- 0.001)
+
                 this.shapes.circle.draw(context,program_state,basil_transform1, this.materials.basil_texture.override({color:tomato_color}))
                 this.shapes.circle.draw(context,program_state,basil_transform2, this.materials.basil_texture.override({color:tomato_color}))
                 this.shapes.circle.draw(context,program_state,basil_transform3, this.materials.basil_texture.override({color:tomato_color}))
