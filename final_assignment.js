@@ -20,7 +20,7 @@ export class Final_Assignment extends Scene {
             sphere2: new defs.Subdivision_Sphere(4),
             sub_sphere: new (defs.Subdivision_Sphere.prototype.make_flat_shaded_version())(2),
             cube: new defs.Cube(),
-            oven: new defs.Subdivision_Sphere(4),
+            oven: new (defs.Subdivision_Sphere.prototype.make_flat_shaded_version())(2),
 
 
             // TODO:  Fill in as many additional shape instances as needed in this key/value table.
@@ -84,7 +84,7 @@ export class Final_Assignment extends Scene {
                     ambient: 1, diffusivity: 0.1, specularity: 0.1,
                     texture: new Texture("assets/basil.png")
                 }),
-            oven: new Material(new defs.Phong_Shader(), {ambient: 1, diffusivity: 1, color: hex_color("#ffffff")}),
+            oven: new Material(new Textured_Phong(), {ambient: 1, diffusivity: 1, color: hex_color("#000000"), texture: new Texture("assets/olive.png")}),
     
         }
         this.sauce_time = 0;
@@ -105,6 +105,8 @@ export class Final_Assignment extends Scene {
         this.update_control_panel = true;
         this.initial_camera_location = Mat4.look_at(vec3(0, 10, 20), vec3(0, 0, 0), vec3(0, 1, 0));
         this.done = false;
+        this.cheese_color = 0;
+        this.ambient = 1;
     }
 
     make_control_panel() {
@@ -114,6 +116,7 @@ export class Final_Assignment extends Scene {
             this.add_sauce = true
         });
     }
+
 
     display(context, program_state) {
         // display():  Called once per frame of animation.
@@ -154,24 +157,23 @@ export class Final_Assignment extends Scene {
 
         let sauce_transform = model_transform.times(Mat4.scale(sauce_radius, sauce_radius, sauce_radius)).times(Mat4.scale(1,1,0.1)).times(Mat4.translation(0,0.05,0));
         
-        let cheese_color = hex_color("#FDDF8E");
+        let cheese_color = color( 0.99609375,0.86328125,0.5546875,1);
+        // red: 0.99609375
+        // green : 0.86328125
+        // blue: 0.5546875
         let max_cheese = 2.5;
         if(this.cheese_radius > max_cheese){
             this.cheese_radius = max_cheese
         }else if (this.can_bake)
         {
             this.cheese_radius += 0.01
-            console.log(this.cheese_radius)
             // var cheese_radius = Math.max(1 + Math.abs((max_cheese -1)*Math.sin(Math.PI/10 * cheese_time)), 2)
         }
         else
         {
             this.cheese_radius = 1.5
         }
-        let cheese_transform1 = model_transform.times(Mat4.scale(this.cheese_radius, this.cheese_radius, this.cheese_radius)).times(Mat4.translation(-1.2,1.5,1)).times(Mat4.scale(1,1,0.1));
-        let cheese_transform2 = cheese_transform1.times(Mat4.translation(2,0.2,1))
-        let cheese_transform3 = cheese_transform2.times(Mat4.translation(-2,-2,1))
-        let cheese_transform4 = cheese_transform3.times(Mat4.translation(2,0.1,1))
+        let cheese_transform1 = model_transform.times(Mat4.scale(6, 5.5, 6)).times(Mat4.translation(0,0.23,0));
 
         
 
@@ -198,7 +200,7 @@ export class Final_Assignment extends Scene {
         let tomato_transform7 = tomato_base.times(Mat4.translation(10, 12, 0))
 
         let pineapple_base = model_transform.times(Mat4.translation(0,2,10)).times(Mat4.scale(0.2, 0.3, 0)).times(Mat4.translation(-3,1,0))
-        let pineapple_transform1 = pineapple_base.times(Mat4.translation(-5,16,0)).times(Mat4.rotation(t,0,0,1))
+        let pineapple_transform1 = pineapple_base.times(Mat4.translation(-5,16,0)).times(Mat4.rotation(t - this.pineapple_time,0,0,1))
         let pineapple_transform2 = pineapple_base.times(Mat4.translation(5,17,0))
         let pineapple_transform3 = pineapple_base.times(Mat4.translation(7,6,0))
         let pineapple_transform4 = pineapple_base.times(Mat4.translation(10,11,0))
@@ -215,8 +217,25 @@ export class Final_Assignment extends Scene {
         let basil_transform6 = basil_base.times(Mat4.translation(8,9,0)).times(Mat4.scale(1.5, 1.6, 0))
         let basil_transform7 = basil_base.times(Mat4.translation(10,14,0)).times(Mat4.scale(1.5, 1.6, 0))
 
+        let grid_basev = model_transform.times(Mat4.translation(0,2,-0.4)).times(Mat4.scale(0.5,30,0.1))
+        /*let grid_v1 = grid_basev.times(Mat4.translation(9,0,0))
+        let grid_v2 = grid_basev.times(Mat4.translation(2,0,0))
+        let grid_v3 = grid_basev.times(Mat4.translation(3,0,0))
+        let grid_v4 = grid_basev.times(Mat4.translation(0,0,0))
+        let grid_v5 = grid_basev.times(Mat4.translation(0,0,0))
+        let grid_v6 = grid_basev.times(Mat4.translation(0,0,0))*/
 
 
+
+        let grid_baseh = model_transform.times(Mat4.translation(0,2,-0.4)).times(Mat4.scale(30,0.3,0.1))
+        let grid_h0= grid_baseh.times(Mat4.scale(1,1,0.1))
+        let grid_h1= grid_baseh.times(Mat4.translation(0,9,0))
+        let grid_h2= grid_baseh.times(Mat4.translation(0,18,0)).times(Mat4.scale(1,0.8,0.1))
+        let grid_h3= grid_baseh.times(Mat4.translation(0,-12,0))
+        let grid_h4= grid_baseh.times(Mat4.translation(0,-24,0)).times(Mat4.scale(1,1.2,0.1))
+        let grid_h5= grid_baseh.times(Mat4.translation(0,-37,0)).times(Mat4.scale(1,1.3,0.1))
+        let grid_h6= grid_baseh.times(Mat4.translation(0,-53,0)).times(Mat4.scale(1,1.4,0.1))
+        
         let olive_color = hex_color("#000000")
         let tomato_color = hex_color("#010101")
 
@@ -228,14 +247,41 @@ export class Final_Assignment extends Scene {
 
         }else if(this.can_bake)
         {
+            //
             // use bake_time for this
+            // let it reach peak perfection
+            // then make this.ambient slowly approach 0
+            console.log(this.bake_time)
+            let r_max = 0.99609375
+            let g_max = 0.86328125
+            let b_max = 0.5546875
+   
+            this.cheese_color = color(Math.max(r_max - bake_time*0.05, 0), Math.max(g_max - bake_time*0.05, 0), Math.max(b_max - bake_time*0.05, 0), 1);
+            if(r_max - bake_time*0.08 < 0 && g_max - bake_time*0.07 < 0 &&b_max - bake_time*0.07 < 0 )
+            {
+                this.ambient = Math.max(this.ambient - 0.01,0.3)
+
+            }
+
   
             // to do change the color over time as baking
+
+            //GRID
+            let grid_color = hex_color("#606060")
+            //this.shapes.cube.draw(context, program_state, grid_basev, this.materials.olive_texture.override({color: grid_color}));
+            this.shapes.cube.draw(context, program_state, grid_h1, this.materials.olive_texture.override({color: grid_color}));
+            this.shapes.cube.draw(context, program_state, grid_h2, this.materials.olive_texture.override({color: grid_color}));
+            this.shapes.cube.draw(context, program_state, grid_h3, this.materials.olive_texture.override({color: grid_color}));
+            this.shapes.cube.draw(context, program_state, grid_h4, this.materials.olive_texture.override({color: grid_color}));
+            this.shapes.cube.draw(context, program_state, grid_h5, this.materials.olive_texture.override({color: grid_color}));
+            this.shapes.cube.draw(context, program_state, grid_h6, this.materials.olive_texture.override({color: grid_color}));
+
+            this.shapes.cube.draw(context, program_state, grid_h0, this.materials.olive_texture.override({color: grid_color}));
 
             //OVEN
             var transSun = model_transform.times(Mat4.scale(3, 3, 3)).times(Mat4.translation(10, 3, -3));
             var valueRGB = (1 + Math.sin(2 * Math.PI/10 * t))/2; 
-            var colorSun = color(1, valueRGB, valueRGB, 1);
+            var colorSun = color(1, valueRGB - 0.4, 0, Math.max(valueRGB,0.8));
             for(let i = 0; i < 20; i++){
                 this.shapes.oven.draw(context, program_state, transSun, this.materials.oven.override({color: colorSun}));
                 transSun = transSun.times(Mat4.translation(-2, 0, 0));
@@ -269,28 +315,62 @@ export class Final_Assignment extends Scene {
             // transSun = transSun.times(Mat4.translation(-4, 0, 0));
             // this.shapes.oven.draw(context, program_state, transSun, this.materials.oven.override({color: colorSun}));
 
-            this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
-            this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
+            this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color, ambient: this.ambient}));
+            this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color, ambient: this.ambient}));
 
 
-            this.shapes.sphere2.draw(context, program_state, cheese_transform1, this.materials.cheese_texture.override({color: cheese_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform2, this.materials.cheese_texture.override({color: cheese_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform3, this.materials.cheese_texture.override({color: cheese_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform4, this.materials.cheese_texture.override({color: cheese_color}));
+            this.shapes.sphere2.draw(context, program_state, cheese_transform1, this.materials.cheese_texture.override({color: this.cheese_color, ambient: this.ambient}));
+            
             
             if (this.add_olives)
             {
-                this.shapes.torus.draw(context, program_state, olive_transform1, this.materials.olive_texture.override({color: olive_color}));
-                this.shapes.torus.draw(context, program_state, olive_transform2, this.materials.olive_texture.override({color: olive_color}));
-                this.shapes.torus.draw(context, program_state, olive_transform3, this.materials.olive_texture.override({color: olive_color}));
-                this.shapes.torus.draw(context, program_state, olive_transform4, this.materials.olive_texture.override({color: olive_color}));
-                this.shapes.torus.draw(context, program_state, olive_transform5, this.materials.olive_texture.override({color: olive_color}));
-                this.shapes.torus.draw(context, program_state, olive_transform6, this.materials.olive_texture.override({color: olive_color}));
-                this.shapes.torus.draw(context, program_state, olive_transform7, this.materials.olive_texture.override({color: olive_color}));
-                this.shapes.torus.draw(context, program_state, olive_transform8, this.materials.olive_texture.override({color: olive_color}));
-                this.shapes.torus.draw(context, program_state, olive_transform9, this.materials.olive_texture.override({color: olive_color}));
-                this.shapes.torus.draw(context, program_state, olive_transform10, this.materials.olive_texture.override({color: olive_color}));
-                this.shapes.torus.draw(context, program_state, olive_transform11, this.materials.olive_texture.override({color: olive_color}));
+                this.shapes.torus.draw(context, program_state, olive_transform1, this.materials.olive_texture.override({color: olive_color, ambient: this.ambient}));
+                this.shapes.torus.draw(context, program_state, olive_transform2, this.materials.olive_texture.override({color: olive_color, ambient: this.ambient}));
+                this.shapes.torus.draw(context, program_state, olive_transform3, this.materials.olive_texture.override({color: olive_color, ambient: this.ambient}));
+                this.shapes.torus.draw(context, program_state, olive_transform4, this.materials.olive_texture.override({color: olive_color, ambient: this.ambient}));
+                this.shapes.torus.draw(context, program_state, olive_transform5, this.materials.olive_texture.override({color: olive_color, ambient: this.ambient}));
+                this.shapes.torus.draw(context, program_state, olive_transform6, this.materials.olive_texture.override({color: olive_color, ambient: this.ambient}));
+                this.shapes.torus.draw(context, program_state, olive_transform7, this.materials.olive_texture.override({color: olive_color, ambient: this.ambient}));
+                this.shapes.torus.draw(context, program_state, olive_transform8, this.materials.olive_texture.override({color: olive_color, ambient: this.ambient}));
+                this.shapes.torus.draw(context, program_state, olive_transform9, this.materials.olive_texture.override({color: olive_color, ambient: this.ambient}));
+                this.shapes.torus.draw(context, program_state, olive_transform10, this.materials.olive_texture.override({color: olive_color, ambient: this.ambient}));
+                this.shapes.torus.draw(context, program_state, olive_transform11, this.materials.olive_texture.override({color: olive_color, ambient: this.ambient}));
+
+            }
+            if (this.add_peppers)
+            {
+                this.shapes.sub_sphere.draw(context, program_state, tomato_transform1, this.materials.tomato_texture.override({color: tomato_color, ambient: this.ambient}))
+                this.shapes.sub_sphere.draw(context, program_state, tomato_transform2, this.materials.tomato_texture.override({color: tomato_color, ambient: this.ambient}))
+                this.shapes.sub_sphere.draw(context, program_state, tomato_transform3, this.materials.tomato_texture.override({color: tomato_color, ambient: this.ambient}))
+                this.shapes.sub_sphere.draw(context, program_state, tomato_transform4, this.materials.tomato_texture.override({color: tomato_color, ambient: this.ambient}))
+                this.shapes.sub_sphere.draw(context, program_state, tomato_transform5, this.materials.tomato_texture.override({color: tomato_color, ambient: this.ambient}))
+                this.shapes.sub_sphere.draw(context, program_state, tomato_transform6, this.materials.tomato_texture.override({color: tomato_color, ambient: this.ambient}))
+                this.shapes.sub_sphere.draw(context, program_state, tomato_transform7, this.materials.tomato_texture.override({color: tomato_color, ambient: this.ambient}))
+
+
+
+            }
+            if(this.add_pineapple)
+            {
+                this.shapes.cube.draw(context,program_state,pineapple_transform1, this.materials.pineapple_texture.override({color:tomato_color, ambient: this.ambient}))
+                this.shapes.cube.draw(context,program_state,pineapple_transform2, this.materials.pineapple_texture.override({color:tomato_color, ambient: this.ambient}))
+                this.shapes.cube.draw(context,program_state,pineapple_transform3, this.materials.pineapple_texture.override({color:tomato_color, ambient: this.ambient}))
+                this.shapes.cube.draw(context,program_state,pineapple_transform4, this.materials.pineapple_texture.override({color:tomato_color, ambient: this.ambient}))
+                this.shapes.cube.draw(context,program_state,pineapple_transform6, this.materials.pineapple_texture.override({color:tomato_color, ambient: this.ambient}))
+                this.shapes.cube.draw(context,program_state,pineapple_transform7, this.materials.pineapple_texture.override({color:tomato_color, ambient: this.ambient}))
+
+
+
+            }
+            if(this.add_chicken)
+            {
+                this.shapes.circle.draw(context,program_state,basil_transform1, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambientr}))
+                this.shapes.circle.draw(context,program_state,basil_transform2, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
+                this.shapes.circle.draw(context,program_state,basil_transform3, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
+                this.shapes.circle.draw(context,program_state,basil_transform4, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
+                this.shapes.circle.draw(context,program_state,basil_transform5, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
+                this.shapes.circle.draw(context,program_state,basil_transform6, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
+                this.shapes.circle.draw(context,program_state,basil_transform7, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
 
             }
             if(this.update_control_panel){
@@ -308,9 +388,7 @@ export class Final_Assignment extends Scene {
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color}));
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
             this.shapes.sphere2.draw(context, program_state, cheese_transform1, this.materials.cheese_texture.override({color: cheese_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform2, this.materials.cheese_texture.override({color: cheese_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform3, this.materials.cheese_texture.override({color: cheese_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform4, this.materials.cheese_texture.override({color: cheese_color}));
+           
             if (this.add_olives)
             {
                 this.shapes.torus.draw(context, program_state, olive_transform1, this.materials.olive_texture.override({color: olive_color}));
@@ -341,6 +419,10 @@ export class Final_Assignment extends Scene {
             }
             if(this.add_pineapple)
             {
+                if(this.pineapple_time == 0)
+                {
+                    this.pineapple_time = t
+                }
                 this.shapes.cube.draw(context,program_state,pineapple_transform1, this.materials.pineapple_texture.override({color:tomato_color}))
                 this.shapes.cube.draw(context,program_state,pineapple_transform2, this.materials.pineapple_texture.override({color:tomato_color}))
                 this.shapes.cube.draw(context,program_state,pineapple_transform3, this.materials.pineapple_texture.override({color:tomato_color}))
@@ -371,10 +453,7 @@ export class Final_Assignment extends Scene {
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color}));
 
             this.shapes.sphere2.draw(context, program_state, cheese_transform1, this.materials.cheese_texture.override({color: cheese_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform2, this.materials.cheese_texture.override({color: cheese_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform3, this.materials.cheese_texture.override({color: cheese_color}));
-            this.shapes.sphere2.draw(context, program_state, cheese_transform4, this.materials.cheese_texture.override({color: cheese_color}));
-
+          
 
             if(!(this.update_control_panel)){
                 this.key_triggered_button("olives", ["o"], () => {
