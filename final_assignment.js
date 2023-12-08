@@ -286,7 +286,7 @@ export class Final_Assignment extends Scene {
             this.went_thru_once = true;
         }
         else if(this.done){
-            this.shapes.cube.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
+            this.shapes.circle.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color, ambient: this.ambient}));
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color, ambient: this.ambient}));
 
