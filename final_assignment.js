@@ -39,7 +39,7 @@ export class Final_Assignment extends Scene {
             bg_texture: new Material(new Textured_Phong(), {
                     color: hex_color("#000000"),
                     ambient: 1, diffusivity: 0.1, specularity: 0.1,
-                    texture: new Texture("assets/bg_2.png")
+                    texture: new Texture("assets/bg3.png")
                 }),
             
             crust_texture: new Material(new Textured_Phong(), {
@@ -104,7 +104,7 @@ export class Final_Assignment extends Scene {
         this.can_bake = false;
         this.start_over = false;
         this.update_control_panel = true;
-        this.initial_camera_location = Mat4.look_at(vec3(0, 10, 20), vec3(0, 0, 0), vec3(0, 1, 0));
+        this.initial_camera_location = Mat4.look_at(vec3(0, 0, 24), vec3(0, 0, 0), vec3(0, 1, 0.9));
         this.done = false;
         this.cheese_color = 0;
         this.ambient = 1;
@@ -165,7 +165,7 @@ export class Final_Assignment extends Scene {
             var sauce_radius = max_sauce
         }
 
-        let sauce_transform = model_transform.times(Mat4.scale(sauce_radius, sauce_radius, sauce_radius)).times(Mat4.scale(1,1,0.1)).times(Mat4.translation(0,0.05,0));
+        let sauce_transform = model_transform.times(Mat4.scale(sauce_radius, sauce_radius, sauce_radius)).times(Mat4.scale(1,1,0.1)).times(Mat4.translation(0,0,0));
         
         let cheese_color = color( 0.99609375,0.86328125,0.5546875,1);
         // red: 0.99609375
@@ -183,11 +183,11 @@ export class Final_Assignment extends Scene {
         {
             this.cheese_radius = 1.5
         }
-        let cheese_transform1 = model_transform.times(Mat4.scale(6, 5.5, 6)).times(Mat4.translation(0,0.23,0));
+        let cheese_transform1 = model_transform.times(Mat4.scale(6, 6, 2)).times(Mat4.translation(0,0,0));
 
         
 
-        let olive_base = model_transform.times(Mat4.translation(0,2,10)).times(Mat4.scale(0.2, 0.2, 0.1))
+        let olive_base = model_transform.times(Mat4.translation(0,-3.5,10)).times(Mat4.scale(0.2, 0.2, 0.1))
         let olive_transform1= olive_base.times(Mat4.translation(-7,17,0))
         let olive_transform2= olive_base.times(Mat4.translation(5,27,0))
         let olive_transform3= olive_base.times(Mat4.translation(9,15,0))
@@ -200,7 +200,7 @@ export class Final_Assignment extends Scene {
         let olive_transform10= olive_base.times(Mat4.translation(6.5,8,0))
         let olive_transform11= olive_base.times(Mat4.translation(4,20,0))
 
-        let tomato_base = model_transform.times(Mat4.translation(0,2,10)).times(Mat4.scale(0.2, 0.3, 0.2))
+        let tomato_base = model_transform.times(Mat4.translation(0,-3.5,10)).times(Mat4.scale(0.2, 0.3, 0.2))
         let tomato_transform1 = tomato_base.times(Mat4.translation(-5, 4, 0)).times(Mat4.rotation(this.pepper_rotate,0,0,1))
         let tomato_transform2 = tomato_base.times(Mat4.translation(6, 5, 0)).times(Mat4.rotation(this.pepper_rotate+1,0,0,1))
         let tomato_transform3 = tomato_base.times(Mat4.translation(0, 14, 0)).times(Mat4.rotation(this.pepper_rotate+2,0,0,1))
@@ -209,7 +209,7 @@ export class Final_Assignment extends Scene {
         let tomato_transform6 = tomato_base.times(Mat4.translation(-10, 12, 0)).times(Mat4.rotation(this.pepper_rotate+5,0,0,1))
         let tomato_transform7 = tomato_base.times(Mat4.translation(10, 12, 0)).times(Mat4.rotation(this.pepper_rotate+6,0,0,1))
 
-        let pineapple_base = model_transform.times(Mat4.translation(0,2,10)).times(Mat4.scale(0.2, 0.3, 0)).times(Mat4.translation(-3,1,0))
+        let pineapple_base = model_transform.times(Mat4.translation(0,-3,10)).times(Mat4.scale(0.2, 0.3, 0)).times(Mat4.translation(-3,1,0))
         let pineapple_transform1 = pineapple_base.times(Mat4.translation(-5,16,0)).times(Mat4.rotation( this.pineapple_rotate,0,0,1))
         let pineapple_transform2 = pineapple_base.times(Mat4.translation(5,17,0)).times(Mat4.rotation(this.pineapple_rotate + 1,0,0,1))
         let pineapple_transform3 = pineapple_base.times(Mat4.translation(7,6,0)).times(Mat4.rotation(this.pineapple_rotate +2,0,0,1))
@@ -218,7 +218,7 @@ export class Final_Assignment extends Scene {
         let pineapple_transform6 = pineapple_base.times(Mat4.translation(-3,6,0)).times(Mat4.rotation(this.pineapple_rotate + 4,0,0,1))
         let pineapple_transform7 = pineapple_base.times(Mat4.translation(-1,12,0)).times(Mat4.rotation(this.pineapple_rotate + 5,0,0,1))
 
-        let basil_base = model_transform.times(Mat4.translation(0,2,10)).times(Mat4.scale(0.2, 0.3, 0.2))
+        let basil_base = model_transform.times(Mat4.translation(0,-3,10)).times(Mat4.scale(0.2, 0.3, 0.2))
         let basil_transform1 = basil_base.times(Mat4.translation(5,17,0)).times(Mat4.scale(1.5, 1.6, 0)).times(Mat4.rotation( this.chicken_rotate,0,0,1))
         let basil_transform2 = basil_base.times(Mat4.translation(-7,14,0)).times(Mat4.scale(1.5, 1.6, 0)).times(Mat4.rotation( this.chicken_rotat+1,0,0,1))
         let basil_transform3 = basil_base.times(Mat4.translation(0,10,0)).times(Mat4.scale(1.5, 1.6, 0)).times(Mat4.rotation( this.chicken_rotate+2,0,0,1))
@@ -228,29 +228,29 @@ export class Final_Assignment extends Scene {
         let basil_transform7 = basil_base.times(Mat4.translation(-10,14,0)).times(Mat4.scale(1.5, 1.6, 0)).times(Mat4.rotation( this.chicken_rotate+6,0,0,1))
 
         let grid_basev = model_transform.times(Mat4.translation(0,2,-0.4)).times(Mat4.scale(0.5,30,0.1))
-        /*let grid_v1 = grid_basev.times(Mat4.translation(9,0,0))
+        let grid_v1 = grid_basev.times(Mat4.translation(9,0,0))
         let grid_v2 = grid_basev.times(Mat4.translation(2,0,0))
         let grid_v3 = grid_basev.times(Mat4.translation(3,0,0))
         let grid_v4 = grid_basev.times(Mat4.translation(0,0,0))
         let grid_v5 = grid_basev.times(Mat4.translation(0,0,0))
-        let grid_v6 = grid_basev.times(Mat4.translation(0,0,0))*/
+        let grid_v6 = grid_basev.times(Mat4.translation(0,0,0))
 
 
 
         let grid_baseh = model_transform.times(Mat4.translation(0,2,-0.4)).times(Mat4.scale(30,0.3,0.1))
-        let grid_h0= grid_baseh.times(Mat4.scale(1,1,0.1))
+        let grid_h0= grid_baseh
         let grid_h1= grid_baseh.times(Mat4.translation(0,9,0))
-        let grid_h2= grid_baseh.times(Mat4.translation(0,18,0)).times(Mat4.scale(1,0.8,0.1))
-        let grid_h3= grid_baseh.times(Mat4.translation(0,-12,0))
-        let grid_h4= grid_baseh.times(Mat4.translation(0,-24,0)).times(Mat4.scale(1,1.2,0.1))
-        let grid_h5= grid_baseh.times(Mat4.translation(0,-37,0)).times(Mat4.scale(1,1.3,0.1))
-        let grid_h6= grid_baseh.times(Mat4.translation(0,-53,0)).times(Mat4.scale(1,1.4,0.1))
+        let grid_h2= grid_baseh.times(Mat4.translation(0,18,0))
+        let grid_h3= grid_baseh.times(Mat4.translation(0,-9,0))
+        let grid_h4= grid_baseh.times(Mat4.translation(0,-18,0))
+        let grid_h5= grid_baseh.times(Mat4.translation(0,-27,0))
+        let grid_h6= grid_baseh.times(Mat4.translation(0,-36,0))
         
         let olive_color = hex_color("#000000")
         let tomato_color = hex_color("#010101")
 
         let background_color = hex_color("#000000");
-        let background_transform = model_transform.times(Mat4.scale(50, 50, 50)).times(Mat4.scale(8,8,0.1));
+        let background_transform = model_transform.times(Mat4.scale(3, 3, 2)).times(Mat4.scale(8,8,0.1));
 
         let bake_time = t - this.bake_time
         if(this.start_over){
@@ -286,7 +286,7 @@ export class Final_Assignment extends Scene {
             this.went_thru_once = true;
         }
         else if(this.done){
-            this.shapes.circle.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
+            this.shapes.cube.draw(context, program_state, background_transform, this.materials.bg_texture.override({color: background_color}));
             this.shapes.sphere.draw(context, program_state, crust_transform, this.materials.crust_texture.override({color: crust_color, ambient: this.ambient}));
             this.shapes.sphere.draw(context, program_state, sauce_transform, this.materials.sauce_texture.override({color: sauce_color, ambient: this.ambient}));
 
@@ -334,7 +334,7 @@ export class Final_Assignment extends Scene {
             }
             if(this.add_chicken)
             {
-                this.shapes.circle.draw(context,program_state,basil_transform1, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambientr}))
+                this.shapes.circle.draw(context,program_state,basil_transform1, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
                 this.shapes.circle.draw(context,program_state,basil_transform2, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
                 this.shapes.circle.draw(context,program_state,basil_transform3, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
                 this.shapes.circle.draw(context,program_state,basil_transform4, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
@@ -384,9 +384,11 @@ export class Final_Assignment extends Scene {
             this.shapes.cube.draw(context, program_state, grid_h6, this.materials.olive_texture.override({color: grid_color}));
 
             this.shapes.cube.draw(context, program_state, grid_h0, this.materials.olive_texture.override({color: grid_color}));
+            //this.shapes.cube.draw(context, program_state, grid_basev, this.materials.olive_texture.override({color: grid_color}));
+
 
             //OVEN
-            var transSun = model_transform.times(Mat4.scale(3, 3, 3)).times(Mat4.translation(10, 3, -3));
+            var transSun = model_transform.times(Mat4.scale(3, 3, 3)).times(Mat4.translation(10, 6, -3));
             var valueRGB = (1 + Math.sin(2 * Math.PI/10 * t))/2; 
             var colorSun = color(1, valueRGB - 0.4, 0, Math.max(valueRGB,0.8));
             for(let i = 0; i < 20; i++){
@@ -471,7 +473,7 @@ export class Final_Assignment extends Scene {
             }
             if(this.add_chicken)
             {
-                this.shapes.circle.draw(context,program_state,basil_transform1, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambientr}))
+                this.shapes.circle.draw(context,program_state,basil_transform1, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
                 this.shapes.circle.draw(context,program_state,basil_transform2, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
                 this.shapes.circle.draw(context,program_state,basil_transform3, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
                 this.shapes.circle.draw(context,program_state,basil_transform4, this.materials.basil_texture.override({color:tomato_color, ambient: this.ambient}))
