@@ -7,8 +7,6 @@ import {Scene_To_Texture_Demo} from "./examples/scene-to-texture-demo.js"
 import {Surfaces_Demo} from "./examples/surfaces-demo.js"
 import {Text_Demo} from "./examples/text-demo.js"
 import {Transforms_Sandbox} from "./examples/transforms-sandbox.js"
-import {Assignment3} from "./assignment3.js";
-import {Assignment2} from "./assignment2.js";
 import {Final_Assignment} from "./final_assignment.js";
 
 
@@ -37,8 +35,6 @@ Object.assign(defs,
     {Surfaces_Demo},
     {Text_Demo},
     {Transforms_Sandbox},
-    {Assignment3},
-    {Assignment2},
     {Final_Assignment}
 );
 
@@ -50,7 +46,7 @@ let  Main_Scene = Final_Assignment; // Initial value
 
 function changeVariable(Main_Scene) {
    // Change the variable (you can modify this line based on your requirements)
-   Main_Scene = Assignment2;
+   Main_Scene = Final_Assignment;
   console.log("Variable value:", Main_Scene);
 }
 
